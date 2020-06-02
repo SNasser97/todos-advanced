@@ -74,11 +74,7 @@ const TODO_METHODS = (function() {
     document.querySelectorAll('p.todo').forEach(todo => todo.remove());
     todos.length = 0;
   }
-  //* CREATE DELETE ELEMENT
-  function createDeleteBtn() {
-   
-    return btnDelete;
-  }
+  
   //* CREATE TODO ELEMENT
   function createTodosDOM(todos) {
     const todoEl = document.createElement('div');
@@ -120,15 +116,33 @@ const TODO_METHODS = (function() {
     return true;
   }
 
+  //* Generate uniqueID
+  function generateUniqueID() {
+    const str = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let uniqueID = '';
+    let idLength = 20;
+    for (let i = 0; i < idLength; i++) {
+      uniqueID += str[Math.floor(Math.random() * str.length)];
+      if (uniqueID.length % 6 == 0) { 
+        uniqueID += '-';
+      }
+    }
+    return uniqueID;
+  }
+  
   function addTodo(value, todos) {
     const output = document.querySelector('#output');
     const newTodo = createTodosDOM(value);
     const results = document.querySelector('#todos');
-
+    const uniqueID = generateUniqueID();
     // my method - const input = document.querySelector('#input');
     if (validateInput(value)) {
       // push todos array to local, key 'todos'
-      todos.push({ text: value, isCompleted: false });
+      todos.push({
+        id: uniqueID, 
+        text: value, 
+        isCompleted: false, 
+      });
       saveTodos(todos);
       results.appendChild(newTodo);
       output.textContent = `Added "${value}" to list!`;
@@ -147,6 +161,12 @@ const TODO_METHODS = (function() {
     sortTodos,
     addTodo,
     removeTodos,
+    generateUniqueID
   }
 
 })();
+
+
+
+
+TODO_METHODS.generateUniqueID();
