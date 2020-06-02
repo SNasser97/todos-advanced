@@ -1,0 +1,43 @@
+// const todos = [
+  //   'always code',
+  //   'learn js',
+  //   'exercise',
+  //   'watch documentary',
+  //   'finish project'
+  // ];
+
+  //! Default todos converted to array obj, randomise bool - dummy data
+  // const todosArrayObj = [...todos.map((text, index) => {
+  //     const isCompleted = Math.round(Math.random()) ? true : false;
+  //     return { text, isCompleted };
+  //   })]
+
+// p.addEventListener('click', (e) => {
+//   console.log(e.target.value);
+// })
+// MY SOLUTION - 
+// no value passed, relied on value from input elem, achieves same as above
+//* Add todo, re-render so class applied to new todo (isComplete set to false)
+/*
+  TODO.btnAdd.addEventListener('click', (e) => {
+    e.preventDefault();
+    TODO.addTodo();
+    TODO.renderTodos(TODO.todosArrayObj, TODO.state);
+  });
+*/
+
+
+
+
+// // //! get todos from array obj
+// function getTodos() {
+//   todosArrayObj.forEach(item => {
+//     const  p= document.createElement('p');
+//     p.textContent = item.text;
+//     body.appendChild(p);
+//     p.setAttribute('class','note');
+//     if (!item.isCompleted) {
+//       p.classList.add('not-done');
+//     }
+//   });
+// }
