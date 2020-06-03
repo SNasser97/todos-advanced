@@ -2,7 +2,7 @@
 // Where our methods/functions + var declarations reside 
 const {
   addTodo,
-  removeTodos,
+  removeAllTodos,
   renderTodos,
   sortOptions,
   todosArrayObj,
@@ -33,7 +33,7 @@ const {
     createTodosDOM,
     sortTodos,
     addTodo,
-    removeTodos,
+    removeAllTodos,
   } = TODO_METHODS;
 
   const state = {
@@ -84,7 +84,7 @@ const {
   */
   return {
     addTodo,
-    removeTodos,
+    removeAllTodos,
     renderTodos,
     sortOptions,
     todosArrayObj,
@@ -116,7 +116,7 @@ form.addEventListener('submit', (e) => {
 //* remove todos + clear
 btnRemoveAll.addEventListener('click', (e) => {
   e.preventDefault();
-  removeTodos(todosArrayObj);
+  removeAllTodos(todosArrayObj);
   renderTodos(todosArrayObj, state);
 });
 
