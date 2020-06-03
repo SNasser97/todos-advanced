@@ -83,14 +83,16 @@ const TODO_METHODS = (function() {
       todosArrayObj.splice(todoIndex, 1);
     }
   }
+
   //* CHECK IF TODO IS COMPLETE 
-  function completeTodo(id, complete, checked) {
-    if (checked) {
-      complete.isCompleted = true;
+  function completeTodo(todo) {
+    if (todo.isCompleted) {
+      todo.isCompleted = false;
     } else {
-      complete.isCompleted = false;
+      todo.isCompleted = true;
     }
   }
+
   //* CREATE TODO ELEMENT
   function createTodosDOM(todo) {
     const todoEl = document.createElement('div');
@@ -115,10 +117,12 @@ const TODO_METHODS = (function() {
     //! setup checkbox
     todoCheckbox.setAttribute('class', 'todo-check');
     todoCheckbox.setAttribute('type', 'checkbox');
-    todoCheckbox.addEventListener('change', (e) => {
+    todoCheckbox.checked = todo.isCompleted;
+    todoCheckbox.addEventListener('change', () => {
       // next element from checkbox - toggle span
-      completeTodo(todo.id, todo, e.target.checked);
+      completeTodo(todo);
       saveTodos(todosArrayObj);
+      console.log(todoCheckbox.checked);
       renderTodos(todosArrayObj, state);
     });
 
@@ -189,9 +193,6 @@ const TODO_METHODS = (function() {
     sortTodos,
     addTodo,
     removeAllTodos,
-    generateUniqueID
   }
 
 })();
-
-TODO_METHODS.generateUniqueID();
