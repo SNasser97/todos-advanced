@@ -50,8 +50,10 @@ const {
 
   const renderTodos = (todos, { searchText, hideCompleted }) => {
     //! Debugging purposes
+    console.warn('<<<<<<<<<<<<< APP RENDERED START >>>>>>>>>>>>>>>> ');
     console.info('rendered at=>', new Date().toLocaleTimeString('en'));
     console.table(todos);
+    console.warn('<<<<<<<<<<<<< APP RENDERED END >>>>>>>>>>>>>>>> \n');
 
     //! Where filter on search or by isCompleted.
     const filtered = todos.filter(todo => {
