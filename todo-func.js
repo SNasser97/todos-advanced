@@ -69,38 +69,66 @@ const TODO_METHODS = (function() {
   }
 
   //* REMOVE ALL TODOS
-  function removeTodos(todos) {
+  function removeAllTodos(todos) {
     deleteSavedTodos('todos');
     document.querySelectorAll('p.todo').forEach(todo => todo.remove());
     todos.length = 0;
   }
-  
+
+  //* REMOVE INDIVIDUAL TODO
+  function removeItem(id) {
+    // find index and remove based on current id matches uniqueId in array
+    const todoIndex = todosArrayObj.findIndex(todo => todo.id == id);
+    if (todoIndex >= 0) {
+      todosArrayObj.splice(todoIndex, 1);
+    }
+  }
+  //* CHECK IF TODO IS COMPLETE 
+  function completeTodo(id, complete, checked) {
+    if (checked) {
+      complete.isCompleted = true;
+    } else {
+      complete.isCompleted = false;
+    }
+  }
   //* CREATE TODO ELEMENT
-  function createTodosDOM(todos) {
+  function createTodosDOM(todo) {
     const todoEl = document.createElement('div');
     const todoText = document.createElement('span');
     const todoDelete = document.createElement('button');
     const todoCheckbox = document.createElement('input');
 
-    // setup text
+    //! setup text
     todoText.setAttribute('class','todo-text');
-    todoText.textContent = todos.text;
+    todoText.textContent = todo.text;
 
-    // setup delete btn
+    //! setup delete btn
     todoDelete.setAttribute('class', 'delete');
     todoDelete.textContent = 'X';
+    todoDelete.addEventListener('click', () => {
+      // remove on click, update localstorage and rerender new todos
+      removeItem(todo.id, todo.isCompleted);
+      saveTodos(todosArrayObj);
+      renderTodos(todosArrayObj, state);
+    })
 
-    // setup checkbox
+    //! setup checkbox
     todoCheckbox.setAttribute('class', 'todo-check');
     todoCheckbox.setAttribute('type', 'checkbox');
+    todoCheckbox.addEventListener('change', (e) => {
+      // next element from checkbox - toggle span
+      completeTodo(todo.id, todo, e.target.checked);
+      saveTodos(todosArrayObj);
+      renderTodos(todosArrayObj, state);
+    });
 
-    // Append elements to div
+    //! Append elements to div
     todoEl.setAttribute('class', 'todo');
     todoEl.appendChild(todoCheckbox);
     todoEl.appendChild(todoText);
     todoEl.appendChild(todoDelete);
 
-    if (!todos.isCompleted) {
+    if (!todo.isCompleted) {
       todoText.classList.add('not-done');
     }
     return todoEl;
@@ -160,13 +188,10 @@ const TODO_METHODS = (function() {
     createTodosDOM,
     sortTodos,
     addTodo,
-    removeTodos,
+    removeAllTodos,
     generateUniqueID
   }
 
 })();
-
-
-
 
 TODO_METHODS.generateUniqueID();
