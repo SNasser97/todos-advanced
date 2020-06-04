@@ -5,6 +5,7 @@ const {
   removeAllTodos,
   renderTodos,
   sortOptions,
+  saveTodos,
   todosArrayObj,
   btnAdd,
   btnRemoveAll,
@@ -13,6 +14,12 @@ const {
   form,
   checkbox,
   sortByDropdown,
+  editClose,
+  editBtn,
+  editInput,
+  editCheckbox,
+  changeBodyText,
+  editDiv
 } = (function () {
   const body = document.querySelector('body');
   const btnAdd = document.querySelector('#btn__add');
@@ -22,6 +29,13 @@ const {
   const form = document.querySelector('#todo-form');
   const checkbox = document.querySelector('#hideComplete');
   const sortByDropdown = document.querySelector('#sort-by');
+  
+  const editDiv = document.querySelector('#edit');
+  const editClose = document.querySelector('#edit-close');
+  const editBtn = document.querySelector('#edit-btn');
+  const editInput = document.querySelector('#edit-input');
+  const editCheckbox = document.querySelector('#checkBody');
+  let changeBodyText = false;
 
   // 2. TODO METHODS - 'imported' from todo-func.js'
   const {
@@ -33,7 +47,7 @@ const {
     createTodosDOM,
     sortTodos,
     addTodo,
-    removeAllTodos,
+    removeAllTodos
   } = TODO_METHODS;
 
   const state = {
@@ -89,6 +103,7 @@ const {
     removeAllTodos,
     renderTodos,
     sortOptions,
+    saveTodos,
     todosArrayObj,
     btnAdd,
     btnRemoveAll,
@@ -97,6 +112,12 @@ const {
     form,
     checkbox,
     sortByDropdown,
+    editDiv,
+    editClose,
+    editBtn,
+    editInput,
+    editCheckbox,
+    changeBodyText,
   }
 })();
 
@@ -139,3 +160,22 @@ sortByDropdown.addEventListener('change', (e) => {
   sortOptions(e.target.value, state);
   renderTodos(todosArrayObj, state);
 });
+
+// * Edit div functionality - hide on close + hide on btn change
+editClose.addEventListener('click', () => {
+    const todoDIv = document.querySelector('.todo');
+    editDiv.style.display = 'none';
+    todoDIv.classList.remove('highlight');
+    renderTodos(todosArrayObj, state);
+});
+
+editBtn.addEventListener('click', () => {
+    todosArrayObj.filter((todo, i) => {
+      if (todo.id === hash) {
+          todo.text = editInput.value;
+      }
+      saveTodos(todosArrayObj);
+      renderTodos(todosArrayObj, state);
+    });
+    editDiv.style.display = 'none';
+})

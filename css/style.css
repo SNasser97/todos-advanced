@@ -58,3 +58,38 @@ label[for="hideComplete"] {
   align-self: center;
   margin-left: auto;
 }
+
+#edit {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  width: 300px;
+  height: auto;
+  border:2px solid black;
+  background: #ccc;
+  text-align: center;
+  top:50%;
+  left:50%;
+  display: none;
+}
+#edit-input {
+  margin: 10px 0;
+}
+#edit-btn{
+  padding: 10px;
+  width: 120px;
+  margin: 0 auto;
+}
+#edit-close {
+  position: absolute;
+  top:0;
+  right:0;
+  background: #fff;
+  color:red;
+}
+.highlight {
+  background: rgb(255, 213, 150);
+  border: 5px solid royalblue;
+}

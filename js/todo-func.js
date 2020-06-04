@@ -85,7 +85,7 @@ const TODO_METHODS = (function() {
   }
 
   //* CHECK IF TODO IS COMPLETE 
-  function completeTodo(todo) {
+  function toggleTodo(todo) {
     if (todo.isCompleted) {
       todo.isCompleted = false;
     } else {
@@ -96,12 +96,21 @@ const TODO_METHODS = (function() {
   //* CREATE TODO ELEMENT
   function createTodosDOM(todo) {
     const todoEl = document.createElement('div');
-    const todoText = document.createElement('span');
+    const todoText = document.createElement('a');
     const todoDelete = document.createElement('button');
     const todoCheckbox = document.createElement('input');
 
-    //! setup text
+    //! event for selecting and editing specific note by id from list
+    todoText.addEventListener('click', (e) => {
+        hash = e.target.hash.substring(1);
+        console.log('hash select', hash);
+        editDiv.style.display = 'block';
+        todoEl.classList.add('highlight');
+    });
+    
+    //! setup todo link
     todoText.setAttribute('class','todo-text');
+    todoText.setAttribute('href', `#${todo.id}`);
     todoText.textContent = todo.text;
 
     //! setup delete btn
@@ -120,9 +129,8 @@ const TODO_METHODS = (function() {
     todoCheckbox.checked = todo.isCompleted;
     todoCheckbox.addEventListener('change', () => {
       // next element from checkbox - toggle span
-      completeTodo(todo);
+      toggleTodo(todo);
       saveTodos(todosArrayObj);
-      console.log(todoCheckbox.checked);
       renderTodos(todosArrayObj, state);
     });
 
@@ -182,6 +190,7 @@ const TODO_METHODS = (function() {
       output.textContent = `Cant add "${value}" to list!`;
     }
   }
+
   // 1. return methods for todo
   return {
     getSavedTodos,
