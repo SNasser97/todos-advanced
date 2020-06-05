@@ -32,6 +32,9 @@
         <option value="default" selected>Please Choose...</option>
         <option value="byComplete">Sort by completed</option>
         <option value="byNotComplete">Sort by not completed</option>
+        <option value="byRecent">Sort by recent</option>
+        <option value="byEdited">Sort by edited</option>
+
       </select>
     </label>
     <h2 id='todos-left'></h2>
@@ -40,10 +43,11 @@
     <div id="edit">
       <h4 id="edit-title">Change title</h4>
       <input type="text" id="edit-input">
-      <button id="edit-btn">Change title</button>
+      <!-- <button id="edit-btn">Change title</button> -->
       <button id="edit-close">X</button>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
   <script src='js/todo-func.js'></script>
   <script src='js/todo-app.js'></script>
 </body>
