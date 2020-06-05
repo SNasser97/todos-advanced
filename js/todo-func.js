@@ -35,14 +35,25 @@ const TODO_METHODS = (function() {
       } else {
         return 1;
       }
+    },
+    byRecent(a,b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    },
+    byEdited(a,b) {
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
     }
   }
   //! handles sorting of todos array
-  function sortTodos(todos, { sortByComplete, sortByNotComplete }) {
-    if (sortByComplete) {
+  function sortTodos(todos, state) {
+    console.log(todos, state);
+    if (state.sortByComplete) {
       todos.sort((a, b) => sortActions.byComplete(a, b));
-    } else if (sortByNotComplete) {
+    } else if (state.sortByNotComplete) {
       todos.sort((a, b) => sortActions.byNotComplete(a, b));
+    } else if (state.sortByRecent) {
+      todos.sort((a,b) => sortActions.byRecent(a, b));
+    } else if( state.sortByEdited) {
+      todos.sort((a, b) => sortActions.byEdited(a, b));
     }
   }
   //! Sort by selected option - we add additional sorting option cases here
@@ -51,14 +62,30 @@ const TODO_METHODS = (function() {
       case 'byComplete':
         state.sortByComplete = true;
         state.sortByNotComplete = false;
+        state.sortByRecent = false;
         break;
       case 'byNotComplete':
         state.sortByNotComplete = true;
         state.sortByComplete = false;
+        state.sortByRecent = false;
         break;
-      default:
+      case 'byRecent':
+        state.sortByRecent = true;
         state.sortByNotComplete = false;
         state.sortByComplete = false;
+        break;
+      case 'byEdited':
+        state.sortByEdited = true;
+        state.sortByRecent = false;
+        state.sortByNotComplete = false;
+        state.sortByComplete = false;
+        break;
+      default:
+        return Object.entries(state).map(a=> a.includes('sortBy') ? a[1] = false : '');
+        state.sortByNotComplete = false;
+        state.sortByComplete = false;
+        state.sortByRecent = false;
+        state.sortByEdited = false;
     }
   }
 
@@ -78,9 +105,10 @@ const TODO_METHODS = (function() {
   //* REMOVE INDIVIDUAL TODO
   function removeItem(id) {
     // find index and remove based on current id matches uniqueId in array
-    const todoIndex = todosArrayObj.findIndex(todo => todo.id == id);
+    const todoIndex = TODO.todosArrayObj.findIndex(todo => todo.id == id);
     if (todoIndex >= 0) {
-      todosArrayObj.splice(todoIndex, 1);
+      TODO.todosArrayObj.splice(todoIndex, 1);
+      TODO.editDiv.style.display='none';
     }
   }
 
@@ -92,26 +120,47 @@ const TODO_METHODS = (function() {
       todo.isCompleted = true;
     }
   }
-
+  //* CHANGE TODO
+  function changeTodo(todos) {
+    todos.filter((todo, i) => {
+      if (todo.id === hash) {
+        todo.text = TODO.editInput.value;
+        todo.updatedAt = moment().valueOf();
+        saveTodos(todos);
+      }
+    });
+  }
+  
+  function updateElementTime(timestamp1, timestamp2) {
+    let text = ''
+    if (timestamp1 == timestamp2) {
+      text = `Created ${moment(timestamp2).fromNow()}`
+    } else {
+      text = `Edited ${moment(timestamp1).fromNow()}`
+    }
+    return text
+  }
   //* CREATE TODO ELEMENT
   function createTodosDOM(todo) {
     const todoEl = document.createElement('div');
     const todoText = document.createElement('a');
     const todoDelete = document.createElement('button');
     const todoCheckbox = document.createElement('input');
+    const spanTime = document.createElement('span');
+    //!set up spanTime
+    spanTime.textContent = updateElementTime(todo.updatedAt, todo.createdAt);
 
     //! event for selecting and editing specific note by id from list
     todoText.addEventListener('click', (e) => {
         hash = e.target.hash.substring(1);
-        console.log('hash select', hash);
-        editDiv.style.display = 'block';
+        TODO.editDiv.style.display = 'block';
         todoEl.classList.add('highlight');
     });
     
     //! setup todo link
     todoText.setAttribute('class','todo-text');
     todoText.setAttribute('href', `#${todo.id}`);
-    todoText.textContent = todo.text;
+    todoText.textContent = todo.text ? todo.text : '<Undefined Todo>';
 
     //! setup delete btn
     todoDelete.setAttribute('class', 'delete');
@@ -119,8 +168,8 @@ const TODO_METHODS = (function() {
     todoDelete.addEventListener('click', () => {
       // remove on click, update localstorage and rerender new todos
       removeItem(todo.id, todo.isCompleted);
-      saveTodos(todosArrayObj);
-      renderTodos(todosArrayObj, state);
+      saveTodos(TODO.todosArrayObj);
+      TODO.renderTodos(TODO.todosArrayObj, TODO.state);
     })
 
     //! setup checkbox
@@ -130,8 +179,8 @@ const TODO_METHODS = (function() {
     todoCheckbox.addEventListener('change', () => {
       // next element from checkbox - toggle span
       toggleTodo(todo);
-      saveTodos(todosArrayObj);
-      renderTodos(todosArrayObj, state);
+      saveTodos(TODO.todosArrayObj);
+      TODO.renderTodos(TODO.todosArrayObj, TODO.state);
     });
 
     //! Append elements to div
@@ -139,6 +188,7 @@ const TODO_METHODS = (function() {
     todoEl.appendChild(todoCheckbox);
     todoEl.appendChild(todoText);
     todoEl.appendChild(todoDelete);
+    todoEl.appendChild(spanTime);
 
     if (!todo.isCompleted) {
       todoText.classList.add('not-done');
@@ -175,6 +225,7 @@ const TODO_METHODS = (function() {
     const newTodo = createTodosDOM(value);
     const results = document.querySelector('#todos');
     const uniqueID = generateUniqueID();
+    const time = moment().valueOf();
     // my method - const input = document.querySelector('#input');
     if (validateInput(value)) {
       // push todos array to local, key 'todos'
@@ -182,7 +233,10 @@ const TODO_METHODS = (function() {
         id: uniqueID, 
         text: value, 
         isCompleted: false, 
+        createdAt: time,
+        updatedAt: time
       });
+
       saveTodos(todos);
       results.appendChild(newTodo);
       output.textContent = `Added "${value}" to list!`;
@@ -202,6 +256,6 @@ const TODO_METHODS = (function() {
     sortTodos,
     addTodo,
     removeAllTodos,
+    changeTodo
   }
-
 })();
