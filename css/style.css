@@ -44,9 +44,22 @@ label[for="hideComplete"] {
   border:1px solid;
   padding: 10px;
 }
-
+#todos {
+  /* width: 800px; */
+}
+#todos .todo span {
+  color: royalblue;
+  display:inline-flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 40px;
+  font-style: italic;
+  opacity: .5;
+  color:#ccc;
+}
 #todos .todo {
   display: flex;
+  position: relative;
 }
 #todos .todo .todo-text {
   margin-left: 10px;
@@ -57,6 +70,8 @@ label[for="hideComplete"] {
   font-weight: bold;
   align-self: center;
   margin-left: auto;
+  position: absolute;
+  right: 0px;
 }
 
 #edit {
