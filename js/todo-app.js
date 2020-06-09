@@ -35,17 +35,16 @@ const TODO = (function () {
   const state = {
     searchText: '',
     hideCompleted: false,
-    sortByComplete: false,
     sortByNotComplete: false,
     sortByRecent: false,
     sortByEdited: false,
+    sortByAZ: false,
     todosArrayObj: [],
   }
   
   //! check if localStorage contains todos else empty
   let { todosArrayObj } = state;
   todosArrayObj = getSavedTodos();
-
   const renderTodos = (todos, { searchText, hideCompleted }) => {
     //! Debugging purposes
     console.warn('<<<<<<<<<<<<< APP RENDERED START >>>>>>>>>>>>>>>> ');
@@ -77,7 +76,6 @@ const TODO = (function () {
     todosSummary(todosRemaining);
     
   }
-
   /* 
     3. destructure methods from todo-func.js e.g. const {method_1} = TODO_METHODS;
       Then we return objects from TODO and accessed by method_1 or var
