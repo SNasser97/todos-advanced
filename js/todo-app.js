@@ -148,13 +148,16 @@ TODO.sortByDropdown.addEventListener('change', (e) => {
 TODO.editClose.addEventListener('click', () => {
     const todoDIv = document.querySelector('.todo');
     TODO.editDiv.style.display = 'none';
+    document.querySelector('.edit-overlay').style.display = 'none';
     todoDIv.classList.remove('highlight');
+    TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 });
 
 TODO.editInput.addEventListener('keyup', (e) => {
     // close using enter key 
     if(e.keyCode == 13) {
       TODO.editDiv.style.display='none';
+      document.querySelector('.edit-overlay').style.display = 'none';
     }
     // edit matching todo and save to local storage
     TODO.changeTodo(TODO.todosArrayObj);
