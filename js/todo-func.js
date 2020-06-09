@@ -128,7 +128,9 @@ const TODO_METHODS = (function() {
   //* TODOS SUMMARY
   function todosSummary(todos) {
     const todosInfo = document.querySelector('#todos-left');
-    todosInfo.textContent = `You have ${todos.length} todos to complete! (In red)`;
+    todosInfo.textContent = (
+      todos.length ? `You have ${todos.length} 
+      todo${todos.length !== 1 ? 's' : ''} remaining, get it done!` : 'Nothing to do!');
   }
 
   //* REMOVE ALL TODOS
@@ -198,6 +200,7 @@ const TODO_METHODS = (function() {
         if(e.target.hash) {
           hash = e.target.hash.substring(1); 
           TODO.editDiv.style.display = 'block';
+          document.querySelector('.edit-overlay').style.display='block';
           todoEl.classList.add('highlight');
         } 
     });
