@@ -4,47 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
-  <title>Todos | JS Bootcamp </title>
+  <link rel="stylesheet" href="css/media-queries.css">
+
+  <title> Vanilla JS | Todoslist Advanced </title>
   
 </head>
 <body>
-  <h1>Todos</h1>
-  
+  <h1 class='title'>JS Todos List </h1>
   <div id='container'>
     <form id='todo-form' action="">
       <input id='input' name='todo' type="text" placeholder="Add your todo here">
-      <br>
-      <button id='btn__add'>Add todo</button>
-      <button id='btn__remove--all'>Remove all notes</button>
+      <div class='todo-btns'>
+        <button id='btn__add'>Add todo</button>
+        <button id='btn__remove--all'>Remove all notes</button>
+      </div>
       <p id="output" class='info'></p>
       <br>
-      <label for="hideComplete">
-        Hide completed:
-        <input type="checkbox" id="hideComplete">
-      </label>
-      <br>
-      <br>
+      <fieldset>
+        <input id='search' name='todoSearch' type="text" placeholder="Search for todo here">
+        <label for="sort-by">
+          Sort by:
+          <select name="sort-by" id="sort-by">
+            <option value="default" selected>Please Choose...</option>
+            <option value="byComplete">Sort by completed</option>
+            <option value="byNotComplete">Sort by not completed</option>
+            <option value="byRecent">Sort by recent</option>
+            <option value="byEdited">Sort by edited</option>
+            <option value="byAlphabetical">Sort by alphabetical</option>
+          </select>
+          <br>
+          <br>
+        </label>
+        <label for="hideComplete">
+          Hide completed:
+          <input type="checkbox" id="hideComplete">
+        </label>
+      </fieldset>
     </form>
-    <input id='search' name='todoSearch' type="text" placeholder="Search for todo here">
-    <label for="sort-by">
-      Sort by:
-      <select name="sort-by" id="sort-by">
-        <option value="default" selected>Please Choose...</option>
-        <option value="byComplete">Sort by completed</option>
-        <option value="byNotComplete">Sort by not completed</option>
-        <option value="byRecent">Sort by recent</option>
-        <option value="byEdited">Sort by edited</option>
-        <option value="byAlphabetical">Sort by alphabetical</option>
-      </select>
-    </label>
+    
     <h2 id='todos-left'></h2>
     <div id="todos"></div>
     <!-- EDIT -->
-    <div id="edit">
-      <h4 id="edit-title">Change title</h4>
-      <input type="text" id="edit-input">
-      <!-- <button id="edit-btn">Change title</button> -->
-      <button id="edit-close">X</button>
+    <div class="edit-overlay">
+      <div id="edit">
+        <h4 id="edit-title">Change todo</h4>
+        <p>Your todo will be changed from the moment you type</p>
+        <input type="text" id="edit-input">
+        <!-- <button id="edit-btn">Change title</button> -->
+        <button id="edit-close">X</button>
+      </div>
     </div>
   </div>
   <script src="https://kit.fontawesome.com/fd0c96b955.js" crossorigin="anonymous"></script>
