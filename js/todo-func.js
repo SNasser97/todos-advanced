@@ -41,51 +41,87 @@ const TODO_METHODS = (function() {
     },
     byEdited(a,b) {
       return new Date(b.updatedAt) - new Date(a.updatedAt);
+    },
+    byAlphabetical(a,b) {
+      if(a.text < b.text) {
+        return -1;
+      } else if (a.text > b.text) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
   }
-  //! handles sorting of todos array
+  //! handles sorting of todos array - used in renderTodos
   function sortTodos(todos, state) {
-    console.log(todos, state);
     if (state.sortByComplete) {
       todos.sort((a, b) => sortActions.byComplete(a, b));
     } else if (state.sortByNotComplete) {
       todos.sort((a, b) => sortActions.byNotComplete(a, b));
     } else if (state.sortByRecent) {
       todos.sort((a,b) => sortActions.byRecent(a, b));
-    } else if( state.sortByEdited) {
+    } else if(state.sortByEdited) {
       todos.sort((a, b) => sortActions.byEdited(a, b));
+    } else if(state.sortByAZ) {
+      todos.sort((a,b) => sortActions.byAlphabetical(a,b));
     }
   }
-  //! Sort by selected option - we add additional sorting option cases here
+  //! Invokes on change event, change bool from selected dropdown option - we change filter state for each sort here
   function sortOptions(value, state) {
     switch (value) {
       case 'byComplete':
-        state.sortByComplete = true;
-        state.sortByNotComplete = false;
-        state.sortByRecent = false;
+        Object.assign(state, {
+          sortByComplete: true,
+          sortByNotComplete: false,
+          sortByRecent: false,
+          sortByEdited: false,
+          sortByAZ: false,
+         });
         break;
       case 'byNotComplete':
-        state.sortByNotComplete = true;
-        state.sortByComplete = false;
-        state.sortByRecent = false;
+        Object.assign(state, {
+          sortByComplete: false,
+          sortByNotComplete: true,
+          sortByRecent: false,
+          sortByEdited: false,
+          sortByAZ: false,
+        });
         break;
       case 'byRecent':
-        state.sortByRecent = true;
-        state.sortByNotComplete = false;
-        state.sortByComplete = false;
+        Object.assign(state, {
+          sortByComplete: false,
+          sortByNotComplete: false,
+          sortByRecent: true,
+          sortByEdited: false,
+          sortByAZ: false,
+        });
         break;
       case 'byEdited':
-        state.sortByEdited = true;
-        state.sortByRecent = false;
-        state.sortByNotComplete = false;
-        state.sortByComplete = false;
+        Object.assign(state, {
+          sortByComplete: false,
+          sortByNotComplete: false,
+          sortByRecent: false,
+          sortByEdited: true,
+          sortByAZ: false,
+        });
+        break;
+      case 'byAlphabetical':
+        Object.assign(state, {
+          sortByComplete: false,
+          sortByNotComplete: false,
+          sortByRecent: false,
+          sortByEdited: false,
+          sortByAZ: true,
+        });
         break;
       default:
-        return Object.entries(state).map(a=> a.includes('sortBy') ? a[1] = false : '');
-        state.sortByNotComplete = false;
-        state.sortByComplete = false;
-        state.sortByRecent = false;
-        state.sortByEdited = false;
+        Object.assign(state, {
+          sortByComplete: false,
+          sortByNotComplete: false,
+          sortByRecent: false,
+          sortByEdited: false,
+          sortByAZ: false,
+        });
     }
   }
 
@@ -141,26 +177,35 @@ const TODO_METHODS = (function() {
     return text
   }
   //* CREATE TODO ELEMENT
+ 
   function createTodosDOM(todo) {
     const todoEl = document.createElement('div');
     const todoText = document.createElement('a');
     const todoDelete = document.createElement('button');
     const todoCheckbox = document.createElement('input');
     const spanTime = document.createElement('span');
-    //!set up spanTime
-    spanTime.textContent = updateElementTime(todo.updatedAt, todo.createdAt);
+    const icon = document.createElement('span');
 
+    //! setup icon span element
+    icon.setAttribute('class', 'todo-icon--edit');
+    icon.innerHTML = '<i class="far fa-edit"></i>';
+
+    //!set up spanTime
+    spanTime.setAttribute('class', 'todo-time');
+    spanTime.textContent = updateElementTime(todo.updatedAt, todo.createdAt);
     //! event for selecting and editing specific note by id from list
     todoText.addEventListener('click', (e) => {
-        hash = e.target.hash.substring(1);
-        TODO.editDiv.style.display = 'block';
-        todoEl.classList.add('highlight');
+        if(e.target.hash) {
+          hash = e.target.hash.substring(1); 
+          TODO.editDiv.style.display = 'block';
+          todoEl.classList.add('highlight');
+        } 
     });
-    
     //! setup todo link
     todoText.setAttribute('class','todo-text');
     todoText.setAttribute('href', `#${todo.id}`);
     todoText.textContent = todo.text ? todo.text : '<Undefined Todo>';
+    todoText.appendChild(icon);
 
     //! setup delete btn
     todoDelete.setAttribute('class', 'delete');
