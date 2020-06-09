@@ -1,110 +1,302 @@
-html {
-  font-size: 62.5%;
-}
+
+html { font-size: 62.5%; }
 body {
   font-size: 1.6rem;
-  background: rgb(109, 34, 128);
+  background: #FF416C;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color:#f1f1f1;
   font-family: Segoe UI, sans-serif;
+  height: 100%;
+
+  max-height: 100%;
+}
+.title {
+  text-align: center;
+  font-size: 8rem;
+  text-shadow: 0px 2px 1px #ccc;
+  /* margin-top: 0; */
 }
 
+#container {
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 60%;
+  padding: 4rem 0 ;
+  margin: 0 auto;
+  align-items: center;
+  height: 100%;
+  background: #f4f4f4be;
+  border: 5px solid #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0px 3px 1px #ccc;
+}
+
+/* TODOS DIV  */
+#todos {
+  /* background: #000; */
+  color:purple;
+  width: 50vw;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin: 0 auto;
+}
+
+/* TODO DIV */
+.todo {
+  display: flex;
+  position: relative;
+  padding: 1rem 2rem;
+  margin: .5rem;
+  background: #f4f4f4;
+  background: linear-gradient(90deg, #fff 9%, #FF416C 8%);
+  border-radius:3px;
+  border:2px solid #FF416C;
+}
+
+
+/* TODO DIV CHILDREN */
+
 .not-done {
-  color:red;
+  color:black;
   font-weight: bolder;
+  font-style: normal;
+  width: auto;
+  height: auto;
+
 }
-.done {
-  color:greenyellow;
-  font-weight: bolder;
-  text-decoration: line-through;
+.todo .todo-text {
+  margin-left: 1rem;
+  padding: 1rem;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 1.8rem;
+  position: relative;
+  left: 20px;
+  min-width: 40%;
+  width: 30rem;
+
+  /* prevent overflow */
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+a {
+  color:#c7f1b4;
+  font-style: italic;
+}
+
+.delete, 
+#edit-close {
+  height:3rem;
+  border-radius: 3px;
+  background: #fff;
+  color:#FF416C;
+  font-size: 1.8rem;
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:0;
+  font-weight: bold;
+  align-self: center;
+  margin-left: auto;
+  transition: all .2s;
+  cursor: pointer;
+}
+.delete:hover, 
+#edit-close { background: #f4f4f4; }
+
+.todo .delete {
+  position: absolute;
+  right: 8px;
+}
+
+
+.todo .todo-time {
+  color: royalblue;
+  display:inline-flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 4rem;
+  font-style: italic;
+  opacity: .7;
+  color:#f4f4f4;
+}
+.todo .todo-icon--edit {
+  color: royalblue;
+  display:inline-flex;
+  margin-left: .8rem;
+}
+
+/* a {
+  color: #f4f4f4; 
+  font-style: italic;
+} */
+/* TODOS FORM */
 .info {
   color:#000;
   background: orange;
   width: 30rem;
   font-weight: bold;
   text-align: center;
-}
-
-#todos {
-  background: #000;
-  color:purple;
-  width: 50vw;
-  padding: 10px;
-  margin-top: 10px;
+  order:-1;
+  align-self: center;
+  background: #f4f4f4;
+  color:#FF416C;
 }
 
 #todo-form {
-  background: rgb(99, 30, 99);
-  padding: 10px;
-  width: 50vw;
+  /* background: rgb(99, 30, 99); */
+  background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 80%;
+
+}
+#todo-form fieldset {
+  border:0;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  width: 60%;
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+#todo-form #search,
+#edit-input,
+#input {
+  margin: 1rem 0;
+  font-size: 1.8rem;
+  padding-left: 1.5rem;
+  color:#FF416C;
+  border-radius:2.5rem;
+  border:0;
+  box-shadow: 0 1px 0px #ccc;
+}
+#todo-form #search {
+  height: 4rem;
+  width: 100%;
+  border-radius: 4px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+
+}
+#todo-form #input {
+  width: calc(100% - 26rem);
+  height: 4rem;
+  border-radius: 4px;
+}
+#todo-form #sort-by {
+  background: #f4f4f4;
+  color:#FF416C;
+  font-size: 1.8rem;
+  border:0;
+  padding: .5rem;
+  border-radius: 2px;
+  margin-left: .5rem;
+}
+
+#sort-by option[value="default"] { font-style: italic; }
+.todo-btns {
+  display: flex;
+  justify-content: center;
+}
+.todo-btns #btn__add, 
+.todo-btns #btn__remove--all {
+  height: 5rem;
+  width: 20rem;
+  border-radius: 4px;
+  border:0;
+  margin: .5rem;
+  font-size: 2rem;
+  color:#FF416C;
+  cursor: pointer;
 }
 
 label[for="hideComplete"] {
   font-weight: bolder;
   border:1px solid;
-  padding: 10px;
-}
-#todos {
-  /* width: 800px; */
-}
-#todos .todo span {
-  color: royalblue;
-  display:inline-flex;
-  align-items: center;
-  margin-left: auto;
-  margin-right: 40px;
-  font-style: italic;
-  opacity: .5;
-  color:#ccc;
-}
-#todos .todo {
-  display: flex;
-  position: relative;
-}
-#todos .todo .todo-text {
-  margin-left: 10px;
-  padding: 10px;
-}
-#todos .todo .delete {
-  height:30px;
-  font-weight: bold;
-  align-self: center;
-  margin-left: auto;
-  position: absolute;
-  right: 0px;
+  padding: 1rem;
 }
 
+/* EDIT BOX */
+.edit-overlay {
+  margin: 0;
+  padding: 0;
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  position: fixed;
+  top:0;
+  left: 0;
+  background: rgba(0,0,0,.8);
+  transition: all 1.2s;
+  overflow: auto;
+}
 #edit {
   position: absolute;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 10px;
-  width: 300px;
+  padding: 1rem;
+  width: 60rem;
   height: auto;
-  border:2px solid black;
-  background: #ccc;
+  border-radius: 10px;
+  background: #FF416C;
+  /* background: linear-gradient(90deg, #fff 9%, #FF416C 8%); */
+  background: linear-gradient(to right, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  color:#f4f4f4;
+  font-size:3rem;
   text-align: center;
   top:50%;
   left:50%;
+  transform: translate(-50%,-50%);
   display: none;
 }
+
 #edit-input {
-  margin: 10px 0;
+  width: 60%;
+  height: 5rem;
 }
 #edit-btn{
-  padding: 10px;
-  width: 120px;
+  padding: 1rem;
+  width: 12rem;
   margin: 0 auto;
 }
 #edit-close {
   position: absolute;
-  top:0;
-  right:0;
-  background: #fff;
-  color:red;
+  top:-1rem;
+  right:-1rem;
+  height: 5rem;
+  width: 5rem;
+  font-size: inherit;
+  border-radius: 5px;
 }
+#edit p {
+  font-style: italic;
+  font-size: 1.8rem;
+}
+
 .highlight {
-  background: rgb(255, 213, 150);
-  border: 5px solid royalblue;
+  background: #ccc;
+  opacity: .4;
+  border: 3px solid #FF416C;
+  color:#FF416C;
 }
+.highlight * {
+  color: #FF416C;
+}
+
+
