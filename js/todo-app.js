@@ -1,19 +1,6 @@
 //! BETTER COMMENTS EXTENTION IS USED
 // Where our methods/functions + var declarations reside 
-const {
-  addTodo,
-  removeTodos,
-  renderTodos,
-  sortOptions,
-  todosArrayObj,
-  btnAdd,
-  btnRemoveAll,
-  inputSearch,
-  state,
-  form,
-  checkbox,
-  sortByDropdown,
-} = (function () {
+const TODO = (function () {
   const body = document.querySelector('body');
   const btnAdd = document.querySelector('#btn__add');
   const btnRemoveAll = document.querySelector('#btn__remove--all');
@@ -22,6 +9,14 @@ const {
   const form = document.querySelector('#todo-form');
   const checkbox = document.querySelector('#hideComplete');
   const sortByDropdown = document.querySelector('#sort-by');
+
+  // edit
+  const editDiv = document.querySelector('#edit');
+  const editClose = document.querySelector('#edit-close');
+  const editBtn = document.querySelector('#edit-btn');
+  const editInput = document.querySelector('#edit-input');
+  const editCheckbox = document.querySelector('#checkBody');
+  let changeBodyText = false;
 
   // 2. TODO METHODS - 'imported' from todo-func.js'
   const {
@@ -33,25 +28,29 @@ const {
     createTodosDOM,
     sortTodos,
     addTodo,
-    removeTodos,
+    removeAllTodos,
+    changeTodo
   } = TODO_METHODS;
 
   const state = {
     searchText: '',
     hideCompleted: false,
-    sortByComplete: false,
     sortByNotComplete: false,
+    sortByRecent: false,
+    sortByEdited: false,
+    sortByAZ: false,
     todosArrayObj: [],
   }
   
   //! check if localStorage contains todos else empty
   let { todosArrayObj } = state;
   todosArrayObj = getSavedTodos();
-
   const renderTodos = (todos, { searchText, hideCompleted }) => {
     //! Debugging purposes
+    console.warn('<<<<<<<<<<<<< APP RENDERED START >>>>>>>>>>>>>>>> ');
     console.info('rendered at=>', new Date().toLocaleTimeString('en'));
     console.table(todos);
+    console.warn('<<<<<<<<<<<<< APP RENDERED END >>>>>>>>>>>>>>>> \n');
 
     //! Where filter on search or by isCompleted.
     const filtered = todos.filter(todo => {
@@ -77,16 +76,17 @@ const {
     todosSummary(todosRemaining);
     
   }
-
   /* 
     3. destructure methods from todo-func.js e.g. const {method_1} = TODO_METHODS;
       Then we return objects from TODO and accessed by method_1 or var
   */
   return {
     addTodo,
-    removeTodos,
+    removeAllTodos,
     renderTodos,
     sortOptions,
+    saveTodos,
+    changeTodo,
     todosArrayObj,
     btnAdd,
     btnRemoveAll,
@@ -95,45 +95,71 @@ const {
     form,
     checkbox,
     sortByDropdown,
+    editDiv,
+    editClose,
+    editBtn,
+    editInput,
+    editCheckbox,
+    changeBodyText,
   }
 })();
 
 //* render init state + arrayObj onload
 window.onload = () => {
-  inputSearch.value = '';
+  TODO.inputSearch.value = '';
   document.querySelector('#input').value = '';
-  renderTodos(todosArrayObj, state);
-  sortByDropdown.value = 'default';
+  TODO.renderTodos(TODO.todosArrayObj, TODO.state);
+  TODO.sortByDropdown.value = 'default';
 }
 
 //* add todo from Form element value
-form.addEventListener('submit', (e) => {
+TODO.form.addEventListener('submit', (e) => {
   e.preventDefault();
-  addTodo(e.target.elements.todo.value, todosArrayObj);
-  renderTodos(todosArrayObj, state);
+  TODO.addTodo(e.target.elements.todo.value, TODO.todosArrayObj);
+  TODO.renderTodos(TODO.todosArrayObj, TODO.state);
   e.target.elements.todo.value = '';
 });
 //* remove todos + clear
-btnRemoveAll.addEventListener('click', (e) => {
+TODO.btnRemoveAll.addEventListener('click', (e) => {
   e.preventDefault();
-  removeTodos(todosArrayObj);
-  renderTodos(todosArrayObj, state);
+  TODO.removeAllTodos(TODO.todosArrayObj);
+  TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 });
 
 //* on input re-render list matching text of todos obj
-inputSearch.addEventListener('input', (e) => {
-    state.searchText = e.target.value;
-    renderTodos(todosArrayObj, state);
+TODO.inputSearch.addEventListener('input', (e) => {
+    TODO.state.searchText = e.target.value;
+    TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 });
 //* hide complete, re-render list
-checkbox.addEventListener('change', (e) => {
-  state.hideCompleted = e.target.checked;
-  renderTodos(todosArrayObj, state);
+TODO.checkbox.addEventListener('change', (e) => {
+  TODO.state.hideCompleted = e.target.checked;
+  TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 });
 
 //* sort by 
-sortByDropdown.addEventListener('change', (e) => {
+TODO.sortByDropdown.addEventListener('change', (e) => {
   console.log(e.target.value);
-  sortOptions(e.target.value, state);
-  renderTodos(todosArrayObj, state);
+  TODO.sortOptions(e.target.value, TODO.state);
+  TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 });
+
+// * Edit div functionality - hide on close + hide on btn change
+TODO.editClose.addEventListener('click', () => {
+    const todoDIv = document.querySelector('.todo');
+    TODO.editDiv.style.display = 'none';
+    document.querySelector('.edit-overlay').style.display = 'none';
+    todoDIv.classList.remove('highlight');
+    TODO.renderTodos(TODO.todosArrayObj, TODO.state);
+});
+
+TODO.editInput.addEventListener('keyup', (e) => {
+    // close using enter key 
+    if(e.keyCode == 13) {
+      TODO.editDiv.style.display='none';
+      document.querySelector('.edit-overlay').style.display = 'none';
+    }
+    // edit matching todo and save to local storage
+    TODO.changeTodo(TODO.todosArrayObj);
+    TODO.renderTodos(TODO.todosArrayObj, TODO.state);
+})

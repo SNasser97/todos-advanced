@@ -1,0 +1,75 @@
+@media only screen and (min-width: 75em) {
+  #container {
+    width:60vw;
+  }
+  #todos .todo {
+    background: linear-gradient(90deg, #fff 5%, #FF416C 5%);
+  }
+  #todo-form #input {
+    width: 35%;
+  }
+  #todo-form #search {
+    width: 60%;
+  }
+}
+/* BreakPoint 800px (800px @ 16px => 50em) */
+
+@media only screen and (max-width: 50em) {
+  
+  #container {
+    width: 80%;
+  }
+  #todo-form #input {
+    width: 100%;
+  }
+  .todo-btns {
+    width: 100%;
+    font-size: 1.6rem;
+  }
+  .todo-btns #btn__add,
+  .todo-btns #btn__remove--all {
+    padding: 0;
+    margin: .2rem;
+  }
+  #todos {
+    width: 90%;
+  }
+  #todos .todo .todo-time {
+    font-size: 1.6rem;
+  }
+  #todos .todo {
+    background: linear-gradient(90deg, #fff 11%, #FF416C 11%);
+  }
+}
+
+/* Med device */
+@media only screen and (max-width: 50em) {
+  
+  #edit {
+    width: 80%;
+    font-size: 2.2rem;
+  }
+  #edit p {
+    font-size: 1.6rem;
+  }
+  #todos-left {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  a.todo-text {
+    font-size: 1.6rem !important;
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+  #todos .todo .todo-time {
+    margin-right: 1.2rem ;
+    font-size: 1.4rem;
+    margin-left: 3rem;
+  }
+  #todos .todo {
+    background: linear-gradient(90deg, #fff 15%, #FF416C 15%);
+  }
+  #todos .todo a {
+    margin-left: 2rem !important;
+  }
+}
