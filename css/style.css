@@ -173,6 +173,9 @@ a {
   font-size: 2rem;
 }
 
+#todos .todo .todo-icon--edit {
+  color:#f1f1f1;
+}
 #todo-form #search,
 #edit-input,
 #input {

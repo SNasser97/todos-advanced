@@ -12,7 +12,9 @@ const TODO_METHODS = (function() {
   }
   //* deleteSavedTodos 
   function deleteSavedTodos(key) {
-    localStorage.removeItem(key);
+    let clear = [];
+    localStorage.setItem(key, JSON.stringify(clear));
+    // localStorage.removeItem(key);
   }
 
   //* SORT
@@ -68,61 +70,32 @@ const TODO_METHODS = (function() {
   }
   //! Invokes on change event, change bool from selected dropdown option - we change filter state for each sort here
   function sortOptions(value, state) {
-    switch (value) {
-      case 'byComplete':
-        Object.assign(state, {
-          sortByComplete: true,
-          sortByNotComplete: false,
-          sortByRecent: false,
-          sortByEdited: false,
-          sortByAZ: false,
-         });
-        break;
-      case 'byNotComplete':
-        Object.assign(state, {
-          sortByComplete: false,
-          sortByNotComplete: true,
-          sortByRecent: false,
-          sortByEdited: false,
-          sortByAZ: false,
-        });
-        break;
-      case 'byRecent':
-        Object.assign(state, {
-          sortByComplete: false,
-          sortByNotComplete: false,
-          sortByRecent: true,
-          sortByEdited: false,
-          sortByAZ: false,
-        });
-        break;
-      case 'byEdited':
-        Object.assign(state, {
-          sortByComplete: false,
-          sortByNotComplete: false,
-          sortByRecent: false,
-          sortByEdited: true,
-          sortByAZ: false,
-        });
-        break;
-      case 'byAlphabetical':
-        Object.assign(state, {
-          sortByComplete: false,
-          sortByNotComplete: false,
-          sortByRecent: false,
-          sortByEdited: false,
-          sortByAZ: true,
-        });
-        break;
-      default:
-        Object.assign(state, {
-          sortByComplete: false,
-          sortByNotComplete: false,
-          sortByRecent: false,
-          sortByEdited: false,
-          sortByAZ: false,
-        });
-    }
+    // convert state into array of obj - if html opt value matched set true
+    let arrayState  = [...Object.entries(state).map(opt => {
+      if(opt[0].includes(value)) {
+        opt[1] = true;
+        console.log(opt[1]);
+      } else if (opt[0] === 'todosArrayObj') {
+        opt[1] = [];
+      } else if (opt[0] === 'searchText') {
+        opt[1] = '';
+      } else {
+        opt[1] = false;
+      }
+      return {[opt[0]]:opt[1]};
+    })];
+
+    // destructure into obj
+    let objState = {...arrayState};
+
+    // assign key values to state based on objState
+    Object.assign(state, {
+      sortByComplete: objState[2].sortByComplete,
+      sortByNotComplete: objState[3].sortByNotComplete,
+      sortByRecent: objState[4].sortByRecent,
+      sortByEdited: objState[5].sortByEdited,
+      sortByAZ: objState[6].sortByAZ,
+    })
   }
 
   //* TODOS SUMMARY
