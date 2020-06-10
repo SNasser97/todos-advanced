@@ -35,6 +35,7 @@ const TODO = (function () {
   const state = {
     searchText: '',
     hideCompleted: false,
+    sortByComplete:false,
     sortByNotComplete: false,
     sortByRecent: false,
     sortByEdited: false,
@@ -50,6 +51,7 @@ const TODO = (function () {
     console.warn('<<<<<<<<<<<<< APP RENDERED START >>>>>>>>>>>>>>>> ');
     console.info('rendered at=>', new Date().toLocaleTimeString('en'));
     console.table(todos);
+    console.info('curr state=>', state);
     console.warn('<<<<<<<<<<<<< APP RENDERED END >>>>>>>>>>>>>>>> \n');
 
     //! Where filter on search or by isCompleted.
@@ -163,3 +165,12 @@ TODO.editInput.addEventListener('keyup', (e) => {
     TODO.changeTodo(TODO.todosArrayObj);
     TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 })
+
+//* Updates todos on duplicate through storage event
+window.addEventListener('storage', (e) => {
+  // check if localStorage contains matching key 'todos'
+  if (e.key === 'todos') {
+    TODO.todosArrayObj = JSON.parse(e.newValue);
+    TODO.renderTodos(TODO.todosArrayObj, TODO.state);
+  }
+});
