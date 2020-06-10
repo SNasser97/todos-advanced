@@ -26,11 +26,11 @@
           Sort by:
           <select name="sort-by" id="sort-by">
             <option value="default" selected>Please Choose...</option>
-            <option value="byComplete">Sort by completed</option>
-            <option value="byNotComplete">Sort by not completed</option>
-            <option value="byRecent">Sort by recent</option>
-            <option value="byEdited">Sort by edited</option>
-            <option value="byAlphabetical">Sort by alphabetical</option>
+            <option value="sortByComplete">Sort by completed</option>
+            <option value="sortByNotComplete">Sort by not completed</option>
+            <option value="sortByRecent">Sort by recent</option>
+            <option value="sortByEdited">Sort by edited</option>
+            <option value="sortByAZ">Sort by alphabetical</option>
           </select>
           <br>
           <br>
@@ -48,9 +48,10 @@
     <div class="edit-overlay">
       <div id="edit">
         <h4 id="edit-title">Change todo</h4>
-        <p>Your todo will be changed from the moment you type</p>
+        <p>Your todo will be changed from the moment you type. 
+          <span style='margin-top:15px; display:block; font-weight:bold;'>Press the Enter key to save and close</span>
+        </p>
         <input type="text" id="edit-input">
-        <!-- <button id="edit-btn">Change title</button> -->
         <button id="edit-close">X</button>
       </div>
     </div>
