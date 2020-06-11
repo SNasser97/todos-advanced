@@ -141,7 +141,7 @@ TODO.checkbox.addEventListener('change', (e) => {
 
 //* sort by 
 TODO.sortByDropdown.addEventListener('change', (e) => {
-  console.log(e.target.value);
+  // console.log(e.target.value);
   TODO.sortOptions(e.target.value, TODO.state);
   TODO.renderTodos(TODO.todosArrayObj, TODO.state);
 });
