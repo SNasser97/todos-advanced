@@ -85,17 +85,22 @@ const TODO_METHODS = (function() {
       return {[opt[0]]:opt[1]};
     })];
 
-    // destructure into obj
-    let objState = {...arrayState};
-
-    // assign key values to state based on objState
+    // destructure state sort props only 
+    const [
+      KEY_COMPLETE, 
+      KEY_NOT_COMPLETE, 
+      KEY_RECENT, 
+      KEY_EDITED, 
+      KEY_AZ
+    ] = arrayState.slice(2, arrayState.length-1);
+    // assign key values to state based on arrayState
     Object.assign(state, {
-      sortByComplete: objState[2].sortByComplete,
-      sortByNotComplete: objState[3].sortByNotComplete,
-      sortByRecent: objState[4].sortByRecent,
-      sortByEdited: objState[5].sortByEdited,
-      sortByAZ: objState[6].sortByAZ,
-    })
+      sortByComplete: KEY_COMPLETE.sortByComplete,
+      sortByNotComplete: KEY_NOT_COMPLETE.sortByNotComplete,
+      sortByRecent: KEY_RECENT.sortByRecent,
+      sortByEdited: KEY_EDITED.sortByEdited,
+      sortByAZ: KEY_AZ.sortByAZ,
+    });
   }
 
   //* TODOS SUMMARY
