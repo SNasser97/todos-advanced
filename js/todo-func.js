@@ -74,7 +74,7 @@ const TODO_METHODS = (function() {
     let arrayState  = [...Object.entries(state).map(opt => {
       if(opt[0].includes(value)) {
         opt[1] = true;
-        console.log(opt[1]);
+        // console.log(opt[1]);
       } else if (opt[0] === 'todosArrayObj') {
         opt[1] = [];
       } else if (opt[0] === 'searchText') {
@@ -94,6 +94,7 @@ const TODO_METHODS = (function() {
       KEY_AZ
     ] = arrayState.slice(2, arrayState.length-1);
     // assign key values to state based on arrayState
+    //! where KEY = array[index], KEY.prop = value
     Object.assign(state, {
       sortByComplete: KEY_COMPLETE.sortByComplete,
       sortByNotComplete: KEY_NOT_COMPLETE.sortByNotComplete,
