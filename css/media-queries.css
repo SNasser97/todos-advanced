@@ -12,10 +12,9 @@
     width: 60%;
   }
 }
-/* BreakPoint 800px (800px @ 16px => 50em) */
 
+/* BreakPoint 800px (800px @ 16px => 50em) */
 @media only screen and (max-width: 50em) {
-  
   #container {
     width: 80%;
   }
@@ -44,7 +43,6 @@
 
 /* Med device */
 @media only screen and (max-width: 50em) {
-  
   #edit {
     width: 80%;
     font-size: 2.2rem;
@@ -71,5 +69,61 @@
   }
   #todos .todo a {
     margin-left: 2rem !important;
+  }
+}
+
+/* smaller devices */
+@media only screen and (max-width:31.250em) {
+  * {
+    box-sizing: border-box;
+  }
+  #container {
+    width:100%;
+    padding: 0;
+  }
+  .todo {
+    justify-content: space-evenly;
+  }
+  #todos .todo .todo-time {
+    margin-right: 2rem;
+    margin-left: 0;
+  }
+}
+
+/* xs devices */
+@media only screen and (max-width:25.000em) {
+  
+  #todo-form {
+    margin: 0;
+    width: 100%;
+  }
+  .todo-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    /* width: 80%; */
+  }
+  .todo-btns #btn__add,
+  .todo-btns #btn__remove--all {
+    font-size: 1.4rem;
+  }
+  #todo-form #output {
+    margin: 0;
+    width: 100%;
+    padding: .8rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  #todos-left {
+    padding: .8rem;
+  }
+  #todos {
+    width:100%;
+  }
+  .todo {
+    padding: 2rem;
   }
 }

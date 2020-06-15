@@ -53,6 +53,7 @@ body {
   background: linear-gradient(90deg, #fff 9%, #FF416C 8%);
   border-radius:3px;
   border:2px solid #FF416C;
+  align-items: center;
 }
 
 
