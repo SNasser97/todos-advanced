@@ -1,9 +1,17 @@
-const TODO_METHODS = (function() {
+'use strict';
 
+const TODO_METHODS = (function() {
+  let hash = '';
   //* getSavedTodos
   function getSavedTodos() {
     const todosJSON = localStorage.getItem('todos');
-    return todosJSON ? JSON.parse(todosJSON) : [];
+    // try parsing our saved todos or create new item in localStorage
+    try {
+      return todosJSON ? JSON.parse(todosJSON) : [];
+    } catch {
+      // if an error exists within localstorage, return an empty array
+      return [];
+    }
   }
   
   //* saveTodos

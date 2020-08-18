@@ -1,3 +1,4 @@
+'use strict';
 //! BETTER COMMENTS EXTENTION IS USED
 // Where our methods/functions + var declarations reside 
 const TODO = (function () {
@@ -157,7 +158,7 @@ TODO.editClose.addEventListener('click', () => {
 
 TODO.editInput.addEventListener('keyup', (e) => {
     // close using enter key 
-    if(e.keyCode == 13) {
+    if(e.keyCode === 13) {
       TODO.editDiv.style.display='none';
       document.querySelector('.edit-overlay').style.display = 'none';
     }
